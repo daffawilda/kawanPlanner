@@ -9,7 +9,13 @@ class Guru extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama', 'jurusan_id', 'email', 'telepon'];
+    protected $fillable = [
+        'nama',
+        'jurusan_id', 
+        'email', 
+        'telepon', 
+        'nip'
+    ];
 
     public function jurusan()
     {

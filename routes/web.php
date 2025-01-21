@@ -26,7 +26,7 @@ Route::get('/admin', function (){
 });
 
 Route::resource('jurusan', JurusanController::class);
-Route::resource('guru', GuruController::class)->except(['show', 'create', 'edit']);
+Route::resource('guru', GuruController::class);
 
 
 Route::get('/dashboard', function () {
