@@ -17,7 +17,7 @@ class JurusanController extends Controller
         // Ambil data jurusan dari database
         $jurusans = Jurusan::all();
         // Kirim data jurusan dan daftar jurusan ke tampilan
-        return view('jurusan', compact('jurusans'));
+        return view('jurusan.index', compact('jurusans'));
     }
 
     /**
@@ -57,8 +57,10 @@ class JurusanController extends Controller
      * @param mixed $id
      * @return view
      */
-    public function show(string $id):view{
-        $jurusan = Jurusan::findOrFail($id);
+    public function show(string $id):view
+    {
+
+        $jurusan = Jurusan::with('mataPelajarans')->findOrFail($id);
         return view('jurusan.show', compact('jurusan'));
     }
 
@@ -72,7 +74,7 @@ class JurusanController extends Controller
     {
         $jurusan = Jurusan::findOrFail($id); // Jurusan yang sedang di-edit
         $jurusans = Jurusan::all(); // Semua daftar jurusan untuk tabel
-        return view('jurusan', compact('jurusan', 'jurusans'));
+        return view('jurusan.edit', compact('jurusan', 'jurusans'));
     }
      
 
@@ -103,4 +105,13 @@ class JurusanController extends Controller
         Jurusan::findOrFail($id)->delete();
         return redirect()->route('jurusan.index')->with('success', 'Jurusan berhasil dihapus!');
     }
+    public function informasiMataPelajaran(): View
+    {
+    // Ambil semua jurusan beserta relasi mata pelajaran
+    $jurusans = Jurusan::with('mataPelajarans')->get();
+
+    // Kirim data ke view
+    return view('informasi-mata-pelajaran', compact('jurusans'));
+    }
+
 }

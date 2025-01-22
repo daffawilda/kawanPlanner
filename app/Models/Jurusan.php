@@ -16,5 +16,9 @@ class Jurusan extends Model
     {
         return $this->hasMany(Guru::class);
     }
+    public function mataPelajarans()
+    {
+    return $this->hasMany(MataPelajaran::class);
+    }
 
 }

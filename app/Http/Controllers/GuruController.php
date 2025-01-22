@@ -1,126 +1,108 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Guru;
 use App\Models\Jurusan;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class GuruController extends Controller
 {
-    /** 
-     * index
-     * 
-     * @return void
+    /**
+     * Display a listing of the resource.
      */
-    public function index():view
+    public function index():View
     {
-        // Menampilkan semua data guru
-        // $gurus = Guru::with('jurusan')->get(); // Mengambil data guru beserta data jurusan
-        // $jurusans = Jurusan::all(); // Mengambil semua data jurusan untuk dropdown
-        // return view('guru', compact('gurus', 'jurusans'));
+        $gurus = Guru::latest()->paginate (5);
+        $jurusan = Jurusan::all();
+        return view('guru.index', compact('gurus', 'jurusan'));
+    }
 
-        $gurus = Guru::with('jurusan')->get();
-        $jurusans = Jurusan::all();
-        if ($gurus->isEmpty()) {
-            dd('Tidak ada guru yang ditemukan');
-        }
-        return view('guru', compact('gurus', 'jurusans'));
-        
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create():View
+    {
+        $jurusans = Jurusan::all(); // Mengambil semua data jurusan
+        return view('guru.create',compact('jurusans'));
 
     }
+
     /**
-     * create
-     * 
-     * @return view
-     */
-    public function create():view
-    {
-        // Menampilkan form untuk menambah guru
-        $jurusans = Jurusan::all(); // Mengambil semua data jurusan untuk dropdown
-        return view('guru', compact('jurusans'));
-    }
-    /**
-     * store
-     * 
-     * @param mixed $request
-     * @return redirectresponse
+     * Store a newly created resource in storage.
      */
     public function store(Request $request): RedirectResponse
     {
-        // Validasi input
         $request->validate([
             'nama' => 'required|string|max:255',
+            'nip' => 'required|string|max:255|unique:gurus',
+            'no_tlp' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:gurus',
             'jurusan_id' => 'required|exists:jurusans,id',
-            'email' => 'nullable|email',
-            'nip' => 'nullable|string|max:20',
-            'telepon' => 'required|string|max:20',
+
         ]);
 
-        // Menyimpan data guru
         Guru::create([
-            'nama' => $request->nama,
-            'jurusan_id' => $request->jurusan_id,
-            'email' => $request->email,
-            'nip' => $request->nip,
-            'telepon' => $request->telepon,
+            'nama' => $request->input('nama'),
+            'nip' => $request->input('nip'),
+            'no_tlp' => $request->input('no_tlp'),
+            'email' => $request->input('email'),
+            'jurusan_id' => $request->input('jurusan_id'),
         ]);
 
         return redirect()->route('guru.index')->with('success', 'Guru berhasil ditambahkan!');
     }
+
     /**
-     * show
-     * 
-     * @param mixed $id
-     * @return view
+     * Display the specified resource.
      */
-    public function show(Guru $guru):view
+    public function show(string $id):view
     {
-        // Menampilkan detail data guru
-        $guru = Guru::findOrFail($guru->id);
-        return view('guru.show', compact('gurus')); 
-    }
-    /**
-     * edit
-     * 
-     * @param mixed $guru
-     * @return view
-     */
-    public function edit(Guru $guru)
-    {
-        // Menampilkan form untuk mengedit data guru
-        $jurusans = Jurusan::all(); // Mengambil semua data jurusan untuk dropdown
-        return view('guru', compact('guru','gurus' ,'jurusans'));
+        $gurus = Guru::findOrFail($id);
+        return view('guru.show', compact('gurus'));
     }
 
-    public function update(Request $request, Guru $guru): RedirectResponse
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id):view
     {
-        // Validasi input
+        $gurus = Guru::findOrFail($id);
+        $jurusans = Jurusan::all();
+        return view('guru.edit', compact('gurus', 'jurusans')); 
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
         $request->validate([
             'nama' => 'required|string|max:255',
+            'nip' => 'required|string|max:255',
+            'no_tlp' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
             'jurusan_id' => 'required|exists:jurusans,id',
-            'email' => 'nullable|email',
-            'nip' => 'nullable|string|max:20',
-            'telepon' => 'required|string|max:20',
-        ]);
-        // Memperbarui data guru
-        $guru->update([
-            'nama' => $request->nama,
-            'jurusan_id' => $request->jurusan_id,
-            'email' => $request->email,
-            'nip' => $request->nip,
-            'telepon' => $request->telepon,
         ]);
 
+        $gurus = Guru::findOrFail($id);
+        $gurus->update([
+            'nama' => $request->input('nama'),
+            'nip' => $request->input('nip'),
+            'no_tlp' => $request->input('no_tlp'),
+            'email' => $request->input('email'),
+            'jurusan_id' => $request->input('jurusan_id'),
+        ]);
         return redirect()->route('guru.index')->with('success', 'Guru berhasil diperbarui!');
     }
 
-    public function destroy(Guru $guru)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
     {
-        // Menghapus data guru
-        $guru->delete();
+        Guru::findOrFail($id)->delete();
         return redirect()->route('guru.index')->with('success', 'Guru berhasil dihapus!');
     }
 }

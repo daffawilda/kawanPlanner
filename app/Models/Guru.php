@@ -10,17 +10,20 @@ class Guru extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama',
-        'jurusan_id', 
+        'nama', 
+        'nip', 
         'email', 
-        'telepon', 
-        'nip'
+        'no_tlp', 
+        'jurusan_id',
     ];
 
     public function jurusan()
     {
         return $this->belongsTo(Jurusan::class);
     }
+    public function mataPelajarans()
+    {
+    return $this->hasMany(MataPelajaran::class);
+    }
 }
-
 

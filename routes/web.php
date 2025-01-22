@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\GuruController;
+use App\Http\Controllers\MataPelajaranController;
+
 
 
 Route::get('/', function () {
@@ -15,18 +17,22 @@ Route::get('/tes', function (){
 Route::get('/peminatan', function (){
     return view ('infMapel');
 });
-Route::get('/kerja', function (){
-    return view ('kerja');
-});
-Route::get('/informasi', function (){
-    return view ('informasi');
-});
+
 Route::get('/admin', function (){
     return view ('homeAdmin');
 });
 
 Route::resource('jurusan', JurusanController::class);
+Route::get('/informasi-mata-pelajaran', [JurusanController::class, 'informasiMataPelajaran'])->name('informasi.mataPelajaran');
+
+
+
 Route::resource('guru', GuruController::class);
+
+Route::resource('mataPelajaran', MataPelajaranController::class);
+Route::get('get-gurus/{jurusanId}', [MataPelajaranController::class, 'getGurus']);
+Route::get('/mata-pelajaran/{id}', [MataPelajaranController::class, 'show'])->name('mataPelajaran.show');
+
 
 
 Route::get('/dashboard', function () {

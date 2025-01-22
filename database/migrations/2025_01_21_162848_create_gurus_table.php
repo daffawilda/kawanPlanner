@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('gurus', function (Blueprint $table) {
-            $table->id(); // Primary Key
-            $table->string('nama'); // Nama guru
-            $table->string('nip')->unique(); // NIP guru
-            $table->string('email')->unique(); // Email guru
-            $table->string('telepon')->nullable(); // Telepon guru
-            $table->foreign('jurusan_id')->references('id')->on('jurusan')->onDelete('cascade'); // Relasi ke tabel jurusan
-            $table->timestamps(); // Timestamps
+            $table->id();
+            $table->string('nama');
+            $table->string('nip');
+            $table->string('email');
+            $table->string('no_tlp');
+            $table->foreignId('jurusan_id')->constrained('jurusans')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

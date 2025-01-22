@@ -9,7 +9,7 @@
       <div class="hidden lg:flex lg:gap-x-12">
         <a href="/" class="text-sm/6 font-semibold text-gray-900">Home</a>
         <a href="/tes" class="text-sm/6 font-semibold text-gray-900">Tes Minat Bakat</a>
-        <a href="/peminatan" class="text-sm/6 font-semibold text-gray-900">Informasi Mata Pelajaran</a>
+        <a href="/informasi-mata-pelajaran" class="text-sm/6 font-semibold text-gray-900">Informasi Mata Pelajaran</a>
 
       </div>
     </nav>
