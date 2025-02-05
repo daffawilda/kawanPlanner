@@ -10,7 +10,6 @@
 
     <!-- Tombol Tambah Mata Pelajaran -->
     <a href="{{ route('mataPelajaran.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded mb-4 inline-block">Tambah Mata Pelajaran</a>
-
     <!-- Tabel Daftar Mata Pelajaran -->
     <table class="table-auto w-full border-collapse border border-gray-300">
         <thead>

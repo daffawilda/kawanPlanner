@@ -47,9 +47,10 @@
 
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Tambah Mata Pelajaran</button>
     </form>
+    
     <script>
         // AJAX untuk mengupdate dropdown guru berdasarkan jurusan yang dipilih
-document.getElementById('jurusan_id').addEventListener('change', function() {
+    document.getElementById('jurusan_id').addEventListener('change', function() {
     var jurusanId = this.value;
 
     fetch(`/get-gurus/${jurusanId}`)

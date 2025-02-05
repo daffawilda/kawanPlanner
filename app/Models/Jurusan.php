@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Jurusan extends Model
 {
     use HasFactory;
-
+    protected $table = 'jurusans';
     protected $fillable = ['nama', 'deskripsi'];
     
     // Relasi dengan model Guru
@@ -18,7 +18,12 @@ class Jurusan extends Model
     }
     public function mataPelajarans()
     {
-    return $this->hasMany(MataPelajaran::class);
+        return $this->hasMany(MataPelajaran::class);
     }
+    public function soals()
+    {
+        return $this->hasMany(Soal::class);
+    }
+
 
 }

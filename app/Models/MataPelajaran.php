@@ -36,4 +36,10 @@ class MataPelajaran extends Model
     {
         return $this->belongsTo(Guru::class);
     }
+    public function soals()
+    {
+        return $this->hasMany(Soal::class);
+    }
+
+   
 }
