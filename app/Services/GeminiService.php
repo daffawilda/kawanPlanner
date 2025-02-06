@@ -10,7 +10,7 @@ class GeminiService
 
     public function __construct()
     {
-        $this->apiKey = env('AIzaSyBq85u4oYhe-jPclB2sZzwL8y2T7PBSKug'); // Ambil API key dari .env
+        $this->apiKey = env('GEMINI_API_KEY'); // Ambil API key dari .env
     }
    
 

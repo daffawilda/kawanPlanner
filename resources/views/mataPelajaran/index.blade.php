@@ -7,9 +7,11 @@
             {{ session('success') }}
         </div>
     @endif
-
-    <!-- Tombol Tambah Mata Pelajaran -->
-    <a href="{{ route('mataPelajaran.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded mb-4 inline-block">Tambah Mata Pelajaran</a>
+    <div class="flex justify-between">
+        <a href="{{ route('mataPelajaran.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded mb-4 inline-block">Tambah Mata Pelajaran</a>
+        
+        <!-- Tombol Tambah Mata Pelajaran -->
+    </div>
     <!-- Tabel Daftar Mata Pelajaran -->
     <table class="table-auto w-full border-collapse border border-gray-300">
         <thead>
@@ -27,7 +29,7 @@
                 <tr>
                     <td class="border border-gray-300 px-4 py-2">{{ $index + 1 }}</td>
                     <td class="border border-gray-300 px-4 py-2">{{ $mataPelajaran->nama }}</td>
-                    <td class="border border-gray-300 px-4 py-2">{{ $mataPelajaran->deskripsi ?? '-' }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ $mataPelajaran->deskripsi }}</td>
                     <td class="border border-gray-300 px-4 py-2">{{ $mataPelajaran->jurusan->nama }}</td>
                     <td class="border border-gray-300 px-4 py-2">{{ $mataPelajaran->guru->nama }}</td>
                     <td class="border border-gray-300 px-4 py-2">
@@ -46,4 +48,5 @@
             @endforelse
         </tbody>
     </table>
+    
 </x-layoutAdmin>

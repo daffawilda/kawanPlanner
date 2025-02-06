@@ -85,6 +85,11 @@ class MataPelajaranController extends Controller
         MataPelajaran::findOrFail($id)->delete();
         return redirect()->route('mataPelajaran.index')->with('success', 'Mata Pelajaran berhasil dihapus!');
     }
+    public function destroyAll()
+    {
+        MataPelajaran::truncate(); // Menghapus semua data dalam tabel mata_pelajaran
+        return redirect()->route('mataPelajaran.index')->with('success', 'Semua mata pelajaran berhasil dihapus.');
+    }
 
     // Method untuk mendapatkan guru berdasarkan jurusan_id
     public function getGurus($jurusanId)

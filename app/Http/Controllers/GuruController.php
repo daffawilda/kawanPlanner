@@ -14,7 +14,7 @@ class GuruController extends Controller
      */
     public function index():View
     {
-        $gurus = Guru::latest()->paginate (5);
+        $gurus = Guru::all();
         $jurusan = Jurusan::all();
         return view('guru.index', compact('gurus', 'jurusan'));
     }

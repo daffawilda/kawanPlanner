@@ -14,8 +14,8 @@ class SoalController extends Controller
     {
         $soals = Soal::with(['jurusan', 'jawaban_ya', 'jawaban_tidak'])->get();
         //  dd($soals->toArray()); // Debugging
-
-        return view('soals.index', compact('soals'));
+        $jurusans = Jurusan::all();
+        return view('soals.index', compact('soals', 'jurusans'));
     }
 
     // Menampilkan form untuk membuat soal baru
@@ -82,6 +82,11 @@ class SoalController extends Controller
         $soal->delete();
 
         return redirect()->route('soals.index')->with('success', 'Soal berhasil dihapus!');
+    }
+    public function destroyAll()
+    {
+    Soal::truncate(); // Menghapus semua data dalam tabel soals
+    return redirect()->route('soals.index')->with('success', 'Semua soal berhasil dihapus.');
     }
     // Tambahkan method untuk mengambil mata pelajaran berdasarkan jurusan
     public function getMataPelajaran($jurusanId)

@@ -64,6 +64,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/edit', [MataPelajaranController::class, 'edit'])->name('mataPelajaran.edit'); // Form edit mataPelajaran
         Route::put('/{id}/edit', [MataPelajaranController::class, 'update'])->name('mataPelajaran.update'); // Update mataPelajaran
         Route::delete('/{id}', [MataPelajaranController::class, 'destroy'])->name('mataPelajaran.destroy'); // Hapus mataPelajaran
+        Route::delete('/delete-all', [MataPelajaranController::class, 'destroyAll'])->name('mataPelajaran.destroyAll');
     });
 
     Route::get('get-gurus/{jurusanId}', [MataPelajaranController::class, 'getGurus']);
@@ -77,8 +78,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/edit', [SoalController::class, 'edit'])->name('soals.edit'); // Form edit soal
         Route::put('/{id}/edit', [SoalController::class, 'update'])->name('soals.update'); // Update soal
         Route::delete('/{id}', [SoalController::class, 'destroy'])->name('soals.destroy'); // Hapus soal
+        Route::delete('/delete-all', [SoalController::class, 'destroyAll'])->name('soals.destroyAll');
     });
-
+    Route::delete('/delete-all', [SoalController::class, 'destroyAll'])
+    ->name('soals.destroyAll');
     Route::get('/logout', function (\Illuminate\Http\Request $request) {
         $request->session()->invalidate();
         $request->session()->regenerateToken();
