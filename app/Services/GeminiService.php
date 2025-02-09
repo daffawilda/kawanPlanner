@@ -2,33 +2,20 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Http;
+use Gemini\Laravel\Facades\Gemini;
 
 class GeminiService
 {
-    protected $apiKey;
-
-    public function __construct()
-    {
-        $this->apiKey = env('GEMINI_API_KEY'); // Ambil API key dari .env
-    }
-   
 
     public function generateReason($mataPelajaran, $percentage)
     {
-        $prompt = "Jelaskan mengapa seseorang cocok untuk mata pelajaran '$mataPelajaran' jika mereka memiliki kecocokan sebesar $percentage%.";
+        $prompt = "Jelaskan mengapa seseorang cocok untuk mata pelajaran '$mataPelajaran' jika mereka memiliki kecocokan sebesar $percentage%. Jelaskan dalam maksimal 200 kata. dan jelaskan dalam satu text paragraf saja";
 
-        $response = Http::post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateText", [
-            'prompt' => $prompt,
-            'temperature' => 0.7,
-            'maxOutputTokens' => 100,
-            'key' => $this->apiKey,
-        ]);
-
-        if ($response->successful()) {
-            return $response->json()['candidates'][0]['output'] ?? "Alasan tidak tersedia.";
+        try {
+            $response = Gemini::geminiPro()->generateContent($prompt);
+            return $response->text();
+        } catch (\Throwable $th) {
+            return 'Terjadi Kesalahan';
         }
-
-        return "Terjadi kesalahan dalam mendapatkan alasan.";
     }
 }

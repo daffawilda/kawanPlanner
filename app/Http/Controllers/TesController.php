@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Soal;
 use App\Models\Jurusan;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use App\Services\GeminiService;
-
+use app\Http\Controllers\GeminiService;
+use App\Services\GeminiService as ServicesGeminiService;
 
 class TesController extends Controller
 {
@@ -31,7 +30,7 @@ class TesController extends Controller
     }
 
     // Menyimpan jawaban tes dan menghitung hasilnya
-    public function storeTes(Request $request, GeminiService $geminiService)
+    public function storeTes(Request $request, ServicesGeminiService $geminiService )
     {
         // Validasi input jawaban
         $data = $request->validate([
@@ -59,60 +58,56 @@ class TesController extends Controller
         }
 
         // Menghitung persentase untuk setiap mata pelajaran
-        $total = array_sum($mapelCount);
+        $totalJawaban = array_sum($mapelCount);
+        
         foreach ($mapelCount as $mataPelajaran => $count) {
-            $mapelCount[$mataPelajaran] = ($count / $total) * 100;
+            $mapelCount[$mataPelajaran] = ($count / $totalJawaban) * 100;
+            $alasan[$mataPelajaran] = $geminiService->generateReason($mataPelajaran, $mapelCount[$mataPelajaran]);
+
         }
         arsort($mapelCount);
 
         // **Pastikan `$alasan` dideklarasikan sebelum digunakan**
         // Gunakan GeminiService untuk membuat alasan pemilihan mata pelajaran
-        $alasan = [];
-        foreach ($mapelCount as $mataPelajaran => $percentage) {
-            $alasan[$mataPelajaran] = $geminiService->generateReason($mataPelajaran, $percentage);
-        }
+       
+        
         
       
         // Kirim data hasil tes ke view hasil
         return view('tes.hasil', compact('jurusan', 'mapelCount','alasan'));
     }
 
-    public function showHasil(Request $request, GeminiService $geminiService)
-    {
-    // Mengambil data jawaban pengguna dan jurusan yang dipilih
+    
+public function showHasil(Request $request, ServicesGeminiService $geminiService)
+{
     $jurusanId = $request->input('jurusan_id');
     $soals = Soal::where('jurusan_id', $jurusanId)->get();
 
     $mapelCount = [];
     
-    // Menghitung jumlah jawaban "Ya" dan "Tidak" untuk setiap mata pelajaran
-   foreach ($soals as $soal) {
-        $jawaban = ($request->input('jawaban_' . $soal->id) == 'ya') ? $soal->jawaban_ya : $soal->jawaban_tidak;
+    foreach ($soals as $soal) {
+        if ($request->input('jawaban_' . $soal->id) == 'ya') {
+            $jawaban = $soal->jawaban_ya;
+        } else {
+            $jawaban = $soal->jawaban_tidak;
+        }
         $mapelCount[$jawaban->nama] = isset($mapelCount[$jawaban->nama]) ? $mapelCount[$jawaban->nama] + 1 : 1;
     }
 
-    // Menghitung persentase untuk setiap mata pelajaran
     $totalJawaban = array_sum($mapelCount);
+    $alasan = [];
     foreach ($mapelCount as $mataPelajaran => $count) {
         $mapelCount[$mataPelajaran] = ($count / $totalJawaban) * 100;
+        $alasan[$mataPelajaran] = $geminiService->generateReason($mataPelajaran, $mapelCount[$mataPelajaran]);
+        // $alasan = $geminiService->generateReason($mataPelajaran, $mapelCount[$mataPelajaran]);
+        // dd($alasan);
     }
+    
+    // Mengambil alasan dari AI
+ 
 
-    // Urutkan berdasarkan persentase tertinggi
-    arsort($mapelCount);
-
-    // **Pastikan `$alasan` dideklarasikan sebelum digunakan**
-    // Gunakan GeminiService untuk membuat alasan pemilihan mata pelajaran
-    $alasan = [];
-    foreach ($mapelCount as $mataPelajaran => $percentage) {
-        $alasan[$mataPelajaran] = $geminiService->generateReason($mataPelajaran, $percentage);
-    }
-    dd($alasan);
-    // Mengambil jurusan untuk ditampilkan di hasil
     $jurusan = Jurusan::find($jurusanId);
 
-    // **Pastikan `$alasan` dikirim ke view**
     return view('tes.hasil', compact('jurusan', 'mapelCount', 'alasan'));
 }
-
-
 }

@@ -109,7 +109,6 @@ class JurusanController extends Controller
     {
     // Ambil semua jurusan beserta relasi mata pelajaran
     $jurusans = Jurusan::with('mataPelajarans')->get();
-
     // Kirim data ke view
     return view('informasi-mata-pelajaran', compact('jurusans'));
     }
