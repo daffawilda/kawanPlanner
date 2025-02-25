@@ -1,3 +1,70 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Background Container */
+/* Background Container */
+.meteor-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Letakkan di belakang konten */
+    overflow: hidden;
+}
+
+/* Meteor Styling */
+.meteor {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: #1e90ff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px 2px rgba(0, 191, 255, 0.8); /* Efek cahaya */
+    animation: meteor-fall linear infinite;
+}
+
+/* Meteor Animation */
+@keyframes meteor-fall {
+    0% {
+        transform: translateY(-100px) translateX(-100px);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) translateX(100vw);
+        opacity: 0;
+    }
+}
+
+/* Randomize Meteor Positions and Speeds */
+.meteor:nth-child(1) {
+    top: 10%;
+    left: 20%;
+    animation-duration: 5s;
+    animation-delay: 0s;
+}
+.meteor:nth-child(2) {
+    top: 30%;
+    left: 50%;
+    animation-duration: 7s;
+    animation-delay: 2s;
+}
+.meteor:nth-child(3) {
+    top: 5%;
+    left: 80%;
+    animation-duration: 6s;
+    animation-delay: 1s;
+}
+.meteor:nth-child(4) {
+    top: 50%;
+    left: 10%;
+    animation-duration: 8s;
+    animation-delay: 3s;
+}
+.meteor:nth-child(5) {
+    top: 70%;
+    left: 90%;
+    animation-duration: 9s;
+    animation-delay: 4s;
+}

@@ -1,20 +1,21 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\MataPelajaranController;
 use App\Http\Controllers\SoalController;
 use App\Http\Controllers\TesController;
+use App\Http\Controllers\HomeAdminController;
+
 
 Route::get('/', function () {
     return view('Home');
 });
 
-route::get('/dashboard', function () {
-    return view('dashboard');
-});
+route::get('/homeAdmin', function () {
+    return view('homeAdmin');
+})->middleware(['auth', 'verified'])->name('homeAdmin');
 
 Route::get('/informasi-mata-pelajaran', [JurusanController::class, 'informasiMataPelajaran'])->name('informasi.mataPelajaran');
 Route::get('mataPelajaran/{id}', [MataPelajaranController::class, 'show'])->name('mataPelajaran.show');
@@ -31,6 +32,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin', function (){
         return view ('homeAdmin');
     });
+    Route::get('/admin', [HomeAdminController::class, 'index'])->name('homeAdmin');
+
+ 
+
     //jurusan
     Route::group(['prefix' => 'jurusan'], function () {
         Route::get('/', [JurusanController::class, 'index'])->name('jurusan.index'); // Tampil daftar jurusan
@@ -75,6 +80,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::delete('/delete-all', [SoalController::class, 'destroyAll'])
     ->name('soals.destroyAll');
+
     Route::get('/logout', function (\Illuminate\Http\Request $request) {
         $request->session()->invalidate();
         $request->session()->regenerateToken();

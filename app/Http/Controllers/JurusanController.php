@@ -113,4 +113,6 @@ class JurusanController extends Controller
     return view('informasi-mata-pelajaran', compact('jurusans'));
     }
 
+ 
+
 }

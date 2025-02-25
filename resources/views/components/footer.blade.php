@@ -1,30 +1,32 @@
-<footer class="bg-gray-800 text-gray-200 pt-4 pb-4 h-96">
-    <div class="container mx-auto px-4 pt-10">
-      <div class="flex flex-wrap justify-between">
-        <div class="w-full md:w-4/12 xl:w-3/12 px-4 mb-4 md:mb-0">
-          <h5 class="uppercase text-lg font-bold mb-2">Tentang Kami</h5>
-          <p>kawan Planner adalah suatu platform yang akan membantu anda untuk mengetahui minat dan bakat anda</p>
-        </div>
-        <div class="w-full md:w-4/12 xl:w-3/12 px-4 mb-4 md:mb-0">
-          <h5 class="uppercase text-lg font-bold mb-2">Link Cepat</h5>
-          <ul>
-            <li><a href="/" class="text-gray-200 hover:text-gray-400">Home</a></li>
-            <li><a href="/tes" class="text-gray-200 hover:text-gray-400">Tes Minat Bakat</a></li>
-            <li><a href="/prodi" class="text-gray-200 hover:text-gray-400">Informasi Prodi</a></li>
-            <li><a href="/kerja" class="text-gray-200 hover:text-gray-400">Informasi Kerja</a></li>
-            
-          </ul>
-        </div>
-        <div class="w-full md:w-4/12 xl:w-3/12 px-4 mb-4 md:mb-0">
-          <h5 class="uppercase text-lg font-bold mb-2">Hubungi Kami</h5>
-          <p>Alamat: Jalan Example, No. 123</p>
-          <p>Telepon: 081234567890</p>
-          <p>Email: example@email.com</p>
-        </div>
-      </div>
-    </div>
-    <div class="text-center mt-28 pt-11">
-        <p>&copy; 2025 KawanPlanner. Semua Hak Cipta Dilindungi.</p>
-    </div>
-</footer>
+<footer class="bg-gradient-to-r from-gray-800 to-blue-900 text-gray-200 pt-10 pb-4">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Tentang Kami -->
+            <div>
+                <h5 class="text-lg font-bold mb-3 text-blue-300">Tentang Kami</h5>
+                <p class="text-gray-300">Kawan Planner adalah platform yang membantu Anda mengenali minat dan bakat untuk masa depan yang lebih baik.</p>
+            </div>
   
+            <!-- Link Cepat -->
+            <div>
+                <h5 class="text-lg font-bold mb-3 text-blue-300">Link Cepat</h5>
+                <ul class="space-y-2">
+                    <li><a href="/" class="hover:text-blue-300 transition">Home</a></li>
+                    <li><a href="{{ route('tes.index') }}" class="hover:text-blue-300 transition">Tes Minat Bakat</a></li>
+                    <li><a href="{{ route('informasi.mataPelajaran') }}" class="hover:text-blue-300 transition">Informasi Mata Pelajaran</a></li>
+                </ul>
+            </div>
+  
+            <!-- Hubungi Kami -->
+            <div>
+                <h5 class="text-lg font-bold mb-3 text-blue-300">Tentang Kami</h5>
+                <p class="text-gray-300">Alamat: Jl. Pangeran Diponegoro No.24, Sambak, Danyang, Purwodadi, Grobogan Regency, Central Java 58113</p>
+            </div>
+        </div>
+  
+        <!-- Copyright -->
+        <div class="border-t border-blue-700 mt-10 pt-4 text-center text-gray-400">
+            <p>&copy; 2025 Kawan Planner. Semua Hak Cipta Dilindungi.</p>
+        </div>
+    </div>
+  </footer>
